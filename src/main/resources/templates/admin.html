@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin page</title>
+</head>
+<body>
+<div class="container" th:switch="${users}">
+    <h2 th:case="null">no users found</h2>
+    <div th:case="*">
+        <h2>Users</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Roles</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.age}"></td>
+                <td>
+                    <a th:each="role : ${user.roles}">
+                        <span th:text="${role.name}"></span>
+                    </a>
+                </td>
+                <td><form th:action="@{admin/user-update/{id}(id=${user.id})}" method="get">
+                        <button type="submit">Edit</button>
+                    </form></td>
+                <td>
+                    <form th:action="@{admin/user-delete/{id}(id=${user.id})}" method="post">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <form action="/admin/user-create">
+        <button type="submit">Create user</button>
+    </form>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User page</title>
+</head>
+<body>
+<div class="container">
+    <form action="#" th:action="@{/user-update}" th:object="${user}" method="post">
+        <label for="id">ID</label>
+        <input readonly type="number" th:field="*{id}" id="id" class="form-control" placeholder="ID" required autofocus>
+        <label for="email">Email</label>
+        <input readonly type="text" th:field="*{email}" id="email" class="form-control" placeholder="email" required autofocus>
+        <label for="password">Password</label>
+        <input readonly type="text" th:field="*{password}" id="password" class="form-control" placeholder="password" required autofocus>
+        <label for="name">Name</label>
+        <input readonly type="text" th:field="*{name}" id="name" class="form-control" placeholder="name" required autofocus>
+        <label for="age">Age</label>
+        <input readonly type="number" th:field="*{age}" id="age" class="form-control" placeholder="age" required autofocus>
+        <th>Roles: </th>
+            <tr th:each="role : ${user.roles}">
+            <td th:text="${role.name}"></td>
+            </tr>
+    </form>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+</body>
+</html>
