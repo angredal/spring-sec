@@ -68,6 +68,7 @@ public class UserServiceImpl implements UserService{
         return userRepository.findById(id);
     }
     @Override
+    @Transactional
     public void deleteById(Long id) {
          userRepository.deleteById(id);
     }
@@ -76,6 +77,7 @@ public class UserServiceImpl implements UserService{
         return  userRepository.findAll();
     }
     @Override
+    @Transactional
     public User save(User user) {
         user.setPassword(getPasswordEncoder().encode(user.getPassword()));
         return userRepository.save(user);
