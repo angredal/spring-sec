@@ -19,15 +19,15 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    private PasswordEncoder PasswordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public PasswordEncoder getPasswordEncoder() {
-        return PasswordEncoder;
+        return passwordEncoder;
     }
     @Override
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.PasswordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Autowired
@@ -76,11 +76,24 @@ public class UserServiceImpl implements UserService{
     public List<User> findAll() {
         return  userRepository.findAll();
     }
+
     @Override
     @Transactional
-    public User save(User user) {
-        user.setPassword(getPasswordEncoder().encode(user.getPassword()));
-        return userRepository.save(user);
+    public void saveUser(User user) {
+        if (user.getId() != null) {
+            Optional<User> userToUpdate = userRepository.findById(user.getId());
+            if (userToUpdate.isPresent()) {
+                if (!userToUpdate.get().getPassword().equals(user.getPassword())) {
+                    user.setPassword(passwordEncoder.encode(user.getPassword()));
+                }
+            } else {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
+        userRepository.save(user);
     }
 
     @Override

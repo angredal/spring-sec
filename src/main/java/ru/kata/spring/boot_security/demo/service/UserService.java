@@ -16,7 +16,7 @@ public interface UserService extends UserDetailsService{
     User findUserByEmail(String email);
     List<User> findAll();
     Optional<User> findById(Long id);
-    User save(User user);
+    void saveUser(User user);
     void deleteById(Long id);
     RoleRepository getRoleRepository();
     void setPasswordEncoder(PasswordEncoder passwordEncoder);
